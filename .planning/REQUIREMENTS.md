@@ -13,7 +13,7 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 
 ### Calendar — cycling load drives daily targets
 
-- [ ] **CAL-01**: User can read a single-source-of-truth `calendar/cycling-2026.md` containing the standard weekly pattern AND the Sunday long-ride progression through 2026-08-09.
+- [x] **CAL-01**: User can read a single-source-of-truth `calendar/cycling-2026.md` containing the standard weekly pattern AND the Sunday long-ride progression through 2026-08-09. _(Phase 01-03)_
 - [ ] **CAL-02**: System (via slash commands) can resolve "today's cycling row" from `cycling-2026.md` and use it to set Jonas's daily kcal target.
 
 ### Trackers — per-person scaffolding & baselines
