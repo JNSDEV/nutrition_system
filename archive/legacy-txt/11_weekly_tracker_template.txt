@@ -1,0 +1,29 @@
+Weekly Tracker Template
+
+Date:
+Weight:
+Training:
+Steps / activity:
+Sleep:
+Hunger:
+Energy:
+Notes:
+
+Meals:
+Breakfast:
+Lunch:
+Dinner:
+Snacks:
+Drinks:
+
+Totals:
+Calories:
+Protein:
+Carbs:
+Fat:
+
+Comments:
+- Did I hit protein?
+- Was I too low on calories?
+- Did training feel good?
+- Any cravings or issues?
