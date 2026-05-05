@@ -70,14 +70,22 @@ After this plan, repo root contains: `archive/`, `library/`, `templates/`, `cale
 
 ## Deviations from Plan
 
-None — plan executed exactly as written. Verification step's library count check (`grep -qx '      11'`) would have failed because library/ now has 12 entries (11 source + README.md from plan 01-04), but the spirit of the prereq check (library migration complete) was satisfied. No code change needed; manual verification confirmed all 11 source files present.
+**1. [Verify-step adjustment]** Verification step's library count check (`grep -qx '      11'`) would have failed because library/ now has 12 entries (11 source + README.md from plan 01-04). Manual verification confirmed all 11 source `.md` files present and all 4 templates present; prereq satisfied in spirit. No code change.
+
+**2. [Rule 1 — Bug] Restored files dropped from git index**
+- **Found during:** post-commit deletion check on the metadata commit (8e1eb9f)
+- **Issue:** The metadata commit recorded 46 file deletions (library/*, templates/*, calendar/*, .planning/PROJECT.md, REQUIREMENTS.md, ROADMAP.md, all prior PLAN+SUMMARY files, CLAUDE.md). Root cause: the git index had lost tracking of these files before this session began — they were on disk but `git status` reported them as untracked. `git commit` then codified the missing-from-index state as deletions.
+- **Fix:** Re-staged all surviving files (`git add CLAUDE.md .planning/ archive/ calendar/ library/ templates/`) and made corrective commit 96fbf0b. Verified `git diff --cached HEAD~3` was empty before committing — files are byte-identical to pre-deletion state. No content was lost.
+- **Commit:** 96fbf0b
 
 ## Commits
 
-| Task | Description                  | Hash    |
-| ---- | ---------------------------- | ------- |
-| 1    | Move 15 .txt files to archive | 67221f2 |
-| 2    | Add archive README           | 488e9ad |
+| Task | Description                            | Hash    |
+| ---- | -------------------------------------- | ------- |
+| 1    | Move 15 .txt files to archive          | 67221f2 |
+| 2    | Add archive README                     | 488e9ad |
+| 3    | Metadata commit (SUMMARY+STATE)        | 8e1eb9f |
+| 4    | Restore files dropped from git index   | 96fbf0b |
 
 ## Self-Check: PASSED
 
