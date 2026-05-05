@@ -55,25 +55,23 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 
 ## Traceability
 
-| REQ-ID  | Phase | Notes |
-|---------|-------|-------|
-| LIB-01  | TBD   |       |
-| LIB-02  | TBD   |       |
-| LIB-03  | TBD   |       |
-| LIB-04  | TBD   |       |
-| CAL-01  | TBD   |       |
-| CAL-02  | TBD   |       |
-| TRK-01  | TBD   |       |
-| TRK-02  | TBD   |       |
-| TRK-03  | TBD   |       |
-| TRK-04  | TBD   |       |
-| CMD-01  | TBD   |       |
-| CMD-02  | TBD   |       |
-| CMD-03  | TBD   |       |
-| CMD-04  | TBD   |       |
-| CMD-05  | TBD   |       |
-| CMD-06  | TBD   |       |
-| DOC-01  | TBD   |       |
-| DOC-02  | TBD   |       |
-
-(Phase column filled in by `gsd-roadmapper`.)
+| REQ-ID  | Phase   | Notes |
+|---------|---------|-------|
+| LIB-01  | Phase 1 | Migrate 15 txt files → library/*.md |
+| LIB-02  | Phase 1 | Four templates under templates/ |
+| LIB-03  | Phase 1 | Archive originals to archive/legacy-txt/ |
+| LIB-04  | Phase 1 | library/README.md explaining structure |
+| CAL-01  | Phase 1 | calendar/cycling-2026.md single source of truth |
+| CAL-02  | Phase 2 | Calendar date resolution used by slash commands |
+| TRK-01  | Phase 2 | trackers/jonas/ with seeded progress.md |
+| TRK-02  | Phase 2 | trackers/partner/ with seeded progress.md |
+| TRK-03  | Phase 2 | templates/daily-log.md |
+| TRK-04  | Phase 2 | templates/weekly-summary.md |
+| CMD-01  | Phase 3 | /prep-today command |
+| CMD-02  | Phase 3 | /log-day command |
+| CMD-03  | Phase 3 | /weekly-plan command |
+| CMD-04  | Phase 3 | /shopping-list command |
+| CMD-05  | Phase 3 | /weekly-review command |
+| CMD-06  | Phase 3 | /swap-meal command |
+| DOC-01  | Phase 4 | Top-level README.md |
+| DOC-02  | Phase 4 | docs/conventions.md |
