@@ -29,7 +29,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   3. User can open `archive/legacy-txt/` and confirm all 15 original `.txt` files are present and unmodified
   4. User can read `library/README.md` and understand how library, templates, and trackers relate to each other and to the slash commands
   5. User can open `calendar/cycling-2026.md` and read the standard weekly session pattern plus the full Sunday long-ride progression through 2026-08-09
-**Plans**: TBD
+**Plans**: 5 plans
+- [ ] 01-01-library-migration-PLAN.md — Migrate 11 root .txt files into library/*.md with locked frontmatter
+- [ ] 01-02-templates-migration-PLAN.md — Migrate 4 template-shaped .txt files into templates/*.md
+- [ ] 01-03-calendar-PLAN.md — Create calendar/cycling-2026.md with two locked tables from PROJECT.md
+- [x] 01-04-library-readme-PLAN.md — Write library/README.md indexing all 15 migrated files + loop primer
+- [ ] 01-05-archive-originals-PLAN.md — Move 15 originals to archive/legacy-txt/ + add archive README
 
 ### Phase 2: Trackers & Baselines
 **Goal**: Per-person trackers exist with real starting data, and slash commands can resolve today's cycling row to derive Jonas's daily kcal target
@@ -72,7 +77,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 0/TBD | Not started | - |
+| 1. Foundation | 4/5 | In progress | - |
 | 2. Trackers & Baselines | 0/TBD | Not started | - |
 | 3. Slash Commands | 0/TBD | Not started | - |
 | 4. Onboarding & Docs | 0/TBD | Not started | - |
