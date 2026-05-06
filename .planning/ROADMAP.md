@@ -58,13 +58,20 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Depends on**: Phase 2
 **Requirements**: CMD-01, CMD-02, CMD-03, CMD-04, CMD-05, CMD-06
 **Success Criteria** (what must be TRUE):
-  1. User can run `/prep-today` and receive a cooking/portioning brief naming specific meals from this week's plan, with portions split for Jonas vs Partner and leftover utilization noted
-  2. User can run `/log-day` and have today's daily-log file created (or updated) for both Jonas and Partner, with training auto-suggested from the cycling calendar
+  1. User can run `/prep-today` and receive a cooking/portioning brief naming specific meals from this week's plan, with portions split for Jonas vs Farva and leftover utilization noted
+  2. User can run `/log-day` and have today's daily-log file created (or updated) for both Jonas and Farva, with training auto-suggested from the cycling calendar
   3. User can run `/weekly-plan` and receive a 7-day meal plan drawn from `library/meals.md` and `library/recipes.md`, respecting the 4-portion convention and the current week's cycling load
   4. User can run `/shopping-list` and receive a shopping list derived from the active weekly plan, normalized against the pantry baseline
-  5. User can run `/weekly-review` for Jonas or Partner and receive 7-day average weight, weight trend vs target, adherence summary, and a concrete kcal/macro adjustment grounded in the established rules
+  5. User can run `/weekly-review` for Jonas or Farva and receive 7-day average weight, weight trend vs target, adherence summary, and a concrete kcal/macro adjustment grounded in the established rules
   6. User can run `/swap-meal` mid-day and receive an alternative meal from the library that fits the remaining macros for that person
-**Plans**: TBD
+**Plans**: 7 plans
+- [ ] 03-00-setup-PLAN.md — Create .claude/commands/ directory + README with all shared conventions (D-01..D-06, D-22 resolution)
+- [ ] 03-01-prep-today-PLAN.md — /prep-today command (CMD-01, D-07..D-09)
+- [ ] 03-02-log-day-PLAN.md — /log-day command with smart-merge and MFP paste flow (CMD-02, D-10..D-13)
+- [ ] 03-03-weekly-plan-PLAN.md — /weekly-plan conversational propose-then-write (CMD-03, D-14..D-17)
+- [ ] 03-04-shopping-list-PLAN.md — /shopping-list ingredient aggregation (CMD-04, D-18..D-19)
+- [ ] 03-05-weekly-review-PLAN.md — /weekly-review metrics + adjustment apply (CMD-05, D-20..D-22)
+- [ ] 03-06-swap-meal-PLAN.md — /swap-meal remaining-macro search (CMD-06, D-23..D-24)
 
 ### Phase 4: Onboarding & Docs
 **Goal**: A first-time reader can understand the system, navigate to any file, and know how to log from a phone without any prior explanation
@@ -72,7 +79,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Requirements**: DOC-01, DOC-02
 **Success Criteria** (what must be TRUE):
   1. User can read top-level `README.md` and understand the daily/weekly loop, where every file type lives, and how to log on the go using Claude mobile as a buffer
-  2. User can read `docs/conventions.md` and find the file-naming rules (daily/YYYY-MM-DD.md, weekly/YYYY-Www.md), date format standard, and how Partner's display name is resolved
+  2. User can read `docs/conventions.md` and find the file-naming rules (daily/YYYY-MM-DD.md, weekly/YYYY-Www.md), date format standard, and how partner's display name is resolved
 **Plans**: TBD
 
 ## Progress
@@ -84,5 +91,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | In progress | - |
 | 2. Trackers & Baselines | 5/5 | Complete | 2026-05-06 |
-| 3. Slash Commands | 0/TBD | Not started | - |
+| 3. Slash Commands | 0/7 | Planned | - |
 | 4. Onboarding & Docs | 0/TBD | Not started | - |
