@@ -65,13 +65,13 @@ Decimal phases appear between their surrounding integers in numeric order.
   5. User can run `/weekly-review` for Jonas or Farva and receive 7-day average weight, weight trend vs target, adherence summary, and a concrete kcal/macro adjustment grounded in the established rules
   6. User can run `/swap-meal` mid-day and receive an alternative meal from the library that fits the remaining macros for that person
 **Plans**: 7 plans
-- [ ] 03-00-setup-PLAN.md — Create .claude/commands/ directory + README with all shared conventions (D-01..D-06, D-22 resolution)
-- [ ] 03-01-prep-today-PLAN.md — /prep-today command (CMD-01, D-07..D-09)
-- [ ] 03-02-log-day-PLAN.md — /log-day command with smart-merge and MFP paste flow (CMD-02, D-10..D-13)
-- [ ] 03-03-weekly-plan-PLAN.md — /weekly-plan conversational propose-then-write (CMD-03, D-14..D-17)
+- [x] 03-00-setup-PLAN.md — Create .claude/commands/ directory + README with all shared conventions (D-01..D-06, D-22 resolution)
+- [x] 03-01-prep-today-PLAN.md — /prep-today command (CMD-01, D-07..D-09)
+- [x] 03-02-log-day-PLAN.md — /log-day command with smart-merge and MFP paste flow (CMD-02, D-10..D-13)
+- [x] 03-03-weekly-plan-PLAN.md — /weekly-plan conversational propose-then-write (CMD-03, D-14..D-17)
 - [ ] 03-04-shopping-list-PLAN.md — /shopping-list ingredient aggregation (CMD-04, D-18..D-19)
-- [ ] 03-05-weekly-review-PLAN.md — /weekly-review metrics + adjustment apply (CMD-05, D-20..D-22)
-- [ ] 03-06-swap-meal-PLAN.md — /swap-meal remaining-macro search (CMD-06, D-23..D-24)
+- [x] 03-05-weekly-review-PLAN.md — /weekly-review metrics + adjustment apply (CMD-05, D-20..D-22)
+- [x] 03-06-swap-meal-PLAN.md — /swap-meal remaining-macro search (CMD-06, D-23..D-24)
 
 ### Phase 4: Onboarding & Docs
 **Goal**: A first-time reader can understand the system, navigate to any file, and know how to log from a phone without any prior explanation
@@ -91,5 +91,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | In progress | - |
 | 2. Trackers & Baselines | 5/5 | Complete | 2026-05-06 |
-| 3. Slash Commands | 0/7 | Planned | - |
+| 3. Slash Commands | 6/7 | In Progress|  |
 | 4. Onboarding & Docs | 0/TBD | Not started | - |
