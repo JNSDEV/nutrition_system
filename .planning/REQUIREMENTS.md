@@ -28,7 +28,7 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 - [ ] **CMD-01**: User can run `/prep-today` and get a clear cooking/portioning brief for today (what to cook, what to thaw, portions for Jonas vs Partner, leftover utilization), based on this week's plan and library portion guidelines.
 - [ ] **CMD-02**: User can run `/log-day` and have today's daily-log file created/updated for Jonas and Partner — with meals, weight, training (auto-suggested from cycling calendar), and free-text notes.
 - [x] **CMD-03**: User can run `/weekly-plan` and get a generated meal plan for the upcoming week, drawn from `library/meals.md` + `library/recipes.md`, respecting the 4-portion meal-prep convention and the cycling calendar's load profile.
-- [ ] **CMD-04**: User can run `/shopping-list` and get a derived weekly shopping list for the active weekly plan, normalized against the pantry baseline in `templates/shopping-list.md`.
+- [x] **CMD-04**: User can run `/shopping-list` and get a derived weekly shopping list for the active weekly plan, normalized against the pantry baseline in `templates/shopping-list.md`.
 - [ ] **CMD-05**: User can run `/weekly-review` for either person (or both) and receive: 7-day average weight, weight-trend vs targets, adherence summary, training summary, and a concrete kcal/macro adjustment proposal grounded in the established adjustment rules (>0.8 kg/wk = add; <0.3 kg/wk × 2 = reduce).
 - [ ] **CMD-06**: User can run `/swap-meal` mid-day and get an alternative meal from `library/meals.md` that fits the remaining macros for that person.
 

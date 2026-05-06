@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Foundation** - Migrate library, structure templates, archive originals, establish cycling calendar
 - [x] **Phase 2: Trackers & Baselines** - Scaffold per-person trackers with seeded baselines, enable calendar-driven daily target resolution
-- [ ] **Phase 3: Slash Commands** - Implement all 6 operating-loop commands
+- [x] **Phase 3: Slash Commands** - Implement all 6 operating-loop commands (completed 2026-05-06)
 - [ ] **Phase 4: Onboarding & Docs** - README and conventions doc so the system is self-explaining
 
 ## Phase Details
@@ -69,7 +69,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] 03-01-prep-today-PLAN.md — /prep-today command (CMD-01, D-07..D-09)
 - [x] 03-02-log-day-PLAN.md — /log-day command with smart-merge and MFP paste flow (CMD-02, D-10..D-13)
 - [x] 03-03-weekly-plan-PLAN.md — /weekly-plan conversational propose-then-write (CMD-03, D-14..D-17)
-- [ ] 03-04-shopping-list-PLAN.md — /shopping-list ingredient aggregation (CMD-04, D-18..D-19)
+- [x] 03-04-shopping-list-PLAN.md — /shopping-list ingredient aggregation (CMD-04, D-18..D-19)
 - [x] 03-05-weekly-review-PLAN.md — /weekly-review metrics + adjustment apply (CMD-05, D-20..D-22)
 - [x] 03-06-swap-meal-PLAN.md — /swap-meal remaining-macro search (CMD-06, D-23..D-24)
 
@@ -91,5 +91,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Foundation | 4/5 | In progress | - |
 | 2. Trackers & Baselines | 5/5 | Complete | 2026-05-06 |
-| 3. Slash Commands | 6/7 | In Progress|  |
+| 3. Slash Commands | 7/7 | Complete   | 2026-05-06 |
 | 4. Onboarding & Docs | 0/TBD | Not started | - |
