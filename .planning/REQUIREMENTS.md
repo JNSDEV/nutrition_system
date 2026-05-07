@@ -34,7 +34,7 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 
 ### Docs — onboarding & operating notes
 
-- [ ] **DOC-01**: User can read a top-level `README.md` that explains the system, the daily/weekly loop, where things live, and how to log on the go (Claude-mobile-as-buffer pattern).
+- [x] **DOC-01**: User can read a top-level `README.md` that explains the system, the daily/weekly loop, where things live, and how to log on the go (Claude-mobile-as-buffer pattern).
 - [ ] **DOC-02**: User can read a `docs/conventions.md` describing file-naming (e.g. `daily/2026-05-05.md`, `weekly/2026-W19.md`), date format, and how partner's display name is resolved (placeholder "Partner" — overridable).
 
 ## v2 Requirements (deferred, not v1)
