@@ -6,7 +6,7 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 
 ### Library — migrate the existing knowledge base
 
-- [ ] **LIB-01**: User can browse a structured `library/` directory containing all durable nutrition knowledge (goals, daily structure, meals, recipes, portions, cooking rules, preferences, training nutrition, calorie targets, macro templates, fast-food rules) — migrated from the 15 root `*.txt` files into individually-named `.md` files.
+- [x] **LIB-01**: User can browse a structured `library/` directory containing all durable nutrition knowledge (goals, daily structure, meals, recipes, portions, cooking rules, preferences, training nutrition, calorie targets, macro templates, fast-food rules) — migrated from the 15 root `*.txt` files into individually-named `.md` files.
 - [ ] **LIB-02**: User can find weekly/repeatable templates (weekly meal plan, weekly tracker, meal-prep planner, shopping list) under a `templates/` directory.
 - [ ] **LIB-03**: Original `*.txt` files are archived (moved to `archive/legacy-txt/`) — not deleted — so original wording stays auditable.
 - [ ] **LIB-04**: User can read a `library/README.md` that explains the structure of `library/` and `templates/` and how they relate to trackers and slash commands.
