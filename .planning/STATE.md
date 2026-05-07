@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: "03-00-setup complete — checkpoint:human-verify"
-last_updated: "2026-05-07T19:44:44.117Z"
+last_updated: "2026-05-07T19:46:46.803Z"
 last_activity: 2026-05-07
 progress:
   total_phases: 5
   completed_phases: 4
   total_plans: 28
-  completed_plans: 23
-  percent: 82
+  completed_plans: 25
+  percent: 89
 ---
 
 # Project State
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-05)
 ## Current Position
 
 Phase: 04.1 (library-wiring-fixes) — EXECUTING
-Plan: 2 of 6
+Plan: 3 of 6
 Status: Ready to execute
 Last activity: 2026-05-07
 
-Progress: [████████░░] 82%
+Progress: [█████████░] 89%
 
 ## Performance Metrics
 
@@ -58,6 +58,7 @@ Progress: [████████░░] 82%
 | Phase 04-onboarding-docs P04 | 3 | 1 tasks | 1 files |
 | Phase 04-onboarding-docs P05 | 15 | - tasks | - files |
 | Phase 04.1-library-wiring-fixes P01 | 48 | 1 tasks | 1 files |
+| Phase 04.1-library-wiring-fixes P05 | 3 | 1 tasks | 1 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,7 @@ Recent decisions affecting current work:
 - Partner display name placeholder: "Partner" — confirm before Phase 2
 - [Phase ?]: D-22 confirmed: weekly_kcal_adjustments appended to progress.md frontmatter without overwriting milestone goals
 - [Phase ?]: Keep-a-Changelog format with combined Added block for v1.0
+- [Phase ?]: 04.1-05: Removed /swap-meal from weekly-plans Read by column — swap-meal reads daily logs and library files, not the weekly plan
 
 ### Pending Todos
 
@@ -97,6 +99,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-07T19:44:41.175Z
+Last session: 2026-05-07T19:46:43.326Z
 Stopped at: 03-00-setup complete — checkpoint:human-verify
 Resume file: None
