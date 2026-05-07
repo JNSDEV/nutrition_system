@@ -18,7 +18,7 @@ Every path pattern in one place. `{person}` is always the lowercase directory to
 |---------|------------|---------|
 | `trackers/{person}/daily/YYYY-MM-DD.md` | `/log-day` | `/weekly-review`, `/prep-today` |
 | `trackers/{person}/weekly/YYYY-Www.md` | `/weekly-review` | `/weekly-review` |
-| `trackers/weekly-plans/YYYY-Www.md` | `/weekly-plan` | `/prep-today`, `/shopping-list`, `/swap-meal` |
+| `trackers/weekly-plans/YYYY-Www.md` | `/weekly-plan` | `/prep-today`, `/shopping-list` |
 | `trackers/weekly-plans/YYYY-Www-shopping.md` | `/shopping-list` | human |
 | `trackers/{person}/progress.md` | `/weekly-review` (adjustments only) | all commands |
 | `library/*.md` | human (Claude edits via CONTRIBUTING.md) | all commands |
