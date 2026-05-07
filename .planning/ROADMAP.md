@@ -98,3 +98,13 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 2. Trackers & Baselines | 5/5 | Complete | 2026-05-06 |
 | 3. Slash Commands | 7/7 | Complete   | 2026-05-06 |
 | 4. Onboarding & Docs | 4/5 | In Progress|  |
+
+### Phase 04.1: Library Wiring Fixes (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 4
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 04.1 to break down)
