@@ -1,0 +1,29 @@
+---
+title: Portion Guidelines
+category: library
+source: 05_portion_guidelines.txt
+last_updated: 2026-05-05
+---
+
+# Portion Guidelines
+
+Jonas:
+- Chicken: 200-250 g raw
+- Rice: 100-120 g dry
+- Protein pasta: 100 g dry
+- Potatoes / sweet potatoes: 350-450 g
+- Tofu: 100-200 g depending on meal
+- Beef mince: 150-200 g
+
+Farva:
+- Chicken: 120-160 g raw
+- Rice: 70-90 g dry
+- Protein pasta: 70-100 g dry
+- Potatoes / sweet potatoes: 250-300 g
+- Tofu: 80-150 g depending on meal
+- Beef mince: 75-100 g
+
+Shared meal prep:
+- Cook 4 portions when possible
+- Dinner = 2 portions
+- Next-day lunch = 2 portions

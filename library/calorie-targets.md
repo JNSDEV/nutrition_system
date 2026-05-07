@@ -1,0 +1,25 @@
+---
+title: Calorie Targets
+category: library
+source: 09_calorie_targets.txt
+last_updated: 2026-05-05
+---
+
+# Calorie Targets
+
+Jonas:
+- Rest day: ~2000-2200 kcal
+- 60 min Z2: ~2200-2400 kcal
+- SST / tempo day: ~2300-2600 kcal
+- Long Z2 day: ~2400-2800 kcal depending on burn
+- Protein: ~150-180 g per day
+
+Farva:
+- General cut range: ~1400-1600 kcal
+- Protein target: ~90-115 g per day
+- Higher activity days can allow extra 100-300 kcal
+
+Adjustment rules:
+- If weight drops faster than ~0.8 kg/week: add calories
+- If weight drops slower than ~0.3 kg/week for 2 weeks: reduce slightly
+- Use weekly average, not one-day scale changes
