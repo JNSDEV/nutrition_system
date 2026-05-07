@@ -85,7 +85,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [ ] 04-02-conventions-PLAN.md — Create docs/conventions.md with 7 locked sections (D-07 order): file paths, date format, frontmatter, person-name resolution, rename procedure, library-anchor format, weekly_kcal_adjustments schema
 - [x] 04-03-changelog-PLAN.md — Create CHANGELOG.md with Keep-a-Changelog v1.0 retroactive entry covering all Phase 1–4 deliverables
 - [x] 04-04-contributing-PLAN.md — Create CONTRIBUTING.md with 3 sections: add-a-meal, add-a-slash-command, update-calorie-target-rules
-- [ ] 04-05-terminology-cleanup-PLAN.md — Sweep .planning/PROJECT.md + REQUIREMENTS.md + ROADMAP.md: Partner → Farva + hybrid-kcal wording fix (D-09)
+- [x] 04-05-terminology-cleanup-PLAN.md — Sweep .planning/PROJECT.md + REQUIREMENTS.md + ROADMAP.md: Partner → Farva + hybrid-kcal wording fix (D-09)
 
 ## Progress
 
@@ -97,4 +97,4 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | 1. Foundation | 4/5 | In progress | - |
 | 2. Trackers & Baselines | 5/5 | Complete | 2026-05-06 |
 | 3. Slash Commands | 7/7 | Complete   | 2026-05-06 |
-| 4. Onboarding & Docs | 3/5 | In Progress|  |
+| 4. Onboarding & Docs | 4/5 | In Progress|  |
