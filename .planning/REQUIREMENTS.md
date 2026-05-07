@@ -19,14 +19,14 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 ### Trackers — per-person scaffolding & baselines
 
 - [ ] **TRK-01**: User can find a `trackers/jonas/` directory with subfolders `daily/`, `weekly/`, plus a `progress.md` file seeded with starting weight (87.9 kg), targets (85 kg by 2026-05-30, then 80 kg ASAP), and the goal-event (Heathland 161 km, 2026-08-03/09).
-- [ ] **TRK-02**: User can find a `trackers/partner/` directory with the same shape, seeded with starting weight (58 kg) and target (53 kg ASAP).
+- [ ] **TRK-02**: User can find a `trackers/farva/` directory with the same shape, seeded with starting weight (58 kg) and target (53 kg ASAP).
 - [ ] **TRK-03**: User can find a daily-log template (`templates/daily-log.md`) used by both trackers — captures meals, weight, training, energy/hunger notes, and free-text comments.
 - [ ] **TRK-04**: User can find a weekly-summary template (`templates/weekly-summary.md`) — captures 7-day weight average, adherence %, training totals, kcal/macro adjustment proposal.
 
 ### Commands — daily/weekly operating loop
 
-- [ ] **CMD-01**: User can run `/prep-today` and get a clear cooking/portioning brief for today (what to cook, what to thaw, portions for Jonas vs Partner, leftover utilization), based on this week's plan and library portion guidelines.
-- [ ] **CMD-02**: User can run `/log-day` and have today's daily-log file created/updated for Jonas and Partner — with meals, weight, training (auto-suggested from cycling calendar), and free-text notes.
+- [ ] **CMD-01**: User can run `/prep-today` and get a clear cooking/portioning brief for today (what to cook, what to thaw, portions for Jonas vs Farva, leftover utilization), based on this week's plan and library portion guidelines.
+- [ ] **CMD-02**: User can run `/log-day` and have today's daily-log file created/updated for Jonas and Farva — with meals, weight, training (auto-suggested from cycling calendar), and free-text notes.
 - [x] **CMD-03**: User can run `/weekly-plan` and get a generated meal plan for the upcoming week, drawn from `library/meals.md` + `library/recipes.md`, respecting the 4-portion meal-prep convention and the cycling calendar's load profile.
 - [x] **CMD-04**: User can run `/shopping-list` and get a derived weekly shopping list for the active weekly plan, normalized against the pantry baseline in `templates/shopping-list.md`.
 - [ ] **CMD-05**: User can run `/weekly-review` for either person (or both) and receive: 7-day average weight, weight-trend vs targets, adherence summary, training summary, and a concrete kcal/macro adjustment proposal grounded in the established adjustment rules (>0.8 kg/wk = add; <0.3 kg/wk × 2 = reduce).
@@ -64,7 +64,7 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 | CAL-01  | Phase 1 | calendar/cycling-2026.md single source of truth |
 | CAL-02  | Phase 2 | Calendar date resolution used by slash commands |
 | TRK-01  | Phase 2 | trackers/jonas/ with seeded progress.md |
-| TRK-02  | Phase 2 | trackers/partner/ with seeded progress.md |
+| TRK-02  | Phase 2 | trackers/farva/ with seeded progress.md |
 | TRK-03  | Phase 2 | templates/daily-log.md |
 | TRK-04  | Phase 2 | templates/weekly-summary.md |
 | CMD-01  | Phase 3 | /prep-today command |
