@@ -7,8 +7,8 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 ### Library — migrate the existing knowledge base
 
 - [x] **LIB-01**: User can browse a structured `library/` directory containing all durable nutrition knowledge (goals, daily structure, meals, recipes, portions, cooking rules, preferences, training nutrition, calorie targets, macro templates, fast-food rules) — migrated from the 15 root `*.txt` files into individually-named `.md` files.
-- [ ] **LIB-02**: User can find weekly/repeatable templates (weekly meal plan, weekly tracker, meal-prep planner, shopping list) under a `templates/` directory.
-- [ ] **LIB-03**: Original `*.txt` files are archived (moved to `archive/legacy-txt/`) — not deleted — so original wording stays auditable.
+- [x] **LIB-02**: User can find weekly/repeatable templates (weekly meal plan, weekly tracker, meal-prep planner, shopping list) under a `templates/` directory.
+- [x] **LIB-03**: Original `*.txt` files are archived (moved to `archive/legacy-txt/`) — not deleted — so original wording stays auditable.
 - [x] **LIB-04**: User can read a `library/README.md` that explains the structure of `library/` and `templates/` and how they relate to trackers and slash commands.
 
 ### Calendar — cycling load drives daily targets
@@ -18,10 +18,10 @@ Source-of-truth list of v1 requirements. Each requirement is atomic, testable, a
 
 ### Trackers — per-person scaffolding & baselines
 
-- [ ] **TRK-01**: User can find a `trackers/jonas/` directory with subfolders `daily/`, `weekly/`, plus a `progress.md` file seeded with starting weight (87.9 kg), targets (85 kg by 2026-05-30, then 80 kg ASAP), and the goal-event (Heathland 161 km, 2026-08-03/09).
+- [x] **TRK-01**: User can find a `trackers/jonas/` directory with subfolders `daily/`, `weekly/`, plus a `progress.md` file seeded with starting weight (87.9 kg), targets (85 kg by 2026-05-30, then 80 kg ASAP), and the goal-event (Heathland 161 km, 2026-08-03/09).
 - [x] **TRK-02**: User can find a `trackers/farva/` directory with the same shape, seeded with starting weight (58 kg) and target (53 kg ASAP).
-- [ ] **TRK-03**: User can find a daily-log template (`templates/daily-log.md`) used by both trackers — captures meals, weight, training, energy/hunger notes, and free-text comments.
-- [ ] **TRK-04**: User can find a weekly-summary template (`templates/weekly-summary.md`) — captures 7-day weight average, adherence %, training totals, kcal/macro adjustment proposal.
+- [x] **TRK-03**: User can find a daily-log template (`templates/daily-log.md`) used by both trackers — captures meals, weight, training, energy/hunger notes, and free-text comments.
+- [x] **TRK-04**: User can find a weekly-summary template (`templates/weekly-summary.md`) — captures 7-day weight average, adherence %, training totals, kcal/macro adjustment proposal.
 
 ### Commands — daily/weekly operating loop
 

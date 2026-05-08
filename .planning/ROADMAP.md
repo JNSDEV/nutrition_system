@@ -12,10 +12,10 @@ Four phases turn 15 existing `.txt` knowledge files into a fully operational mar
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Foundation** - Migrate library, structure templates, archive originals, establish cycling calendar
+- [x] **Phase 1: Foundation** - Migrate library, structure templates, archive originals, establish cycling calendar
 - [x] **Phase 2: Trackers & Baselines** - Scaffold per-person trackers with seeded baselines, enable calendar-driven daily target resolution
 - [x] **Phase 3: Slash Commands** - Implement all 6 operating-loop commands (completed 2026-05-06)
-- [ ] **Phase 4: Onboarding & Docs** - README and conventions doc so the system is self-explaining
+- [x] **Phase 4: Onboarding & Docs** - README and conventions doc so the system is self-explaining
 
 ## Phase Details
 
@@ -94,17 +94,22 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Foundation | 4/5 | In progress | - |
+| 1. Foundation | 5/5 | Complete | 2026-05-05 |
 | 2. Trackers & Baselines | 5/5 | Complete | 2026-05-06 |
 | 3. Slash Commands | 7/7 | Complete   | 2026-05-06 |
-| 4. Onboarding & Docs | 4/5 | In Progress|  |
+| 4. Onboarding & Docs | 5/5 | Complete | 2026-05-07 |
 
 ### Phase 04.1: Library Wiring Fixes (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
+**Goal:** Close the 2 BLOCKERs and 3 WARNINGs from the v1.0 milestone audit: restructure library/meals.md and library/recipes.md for anchor resolution, add session_type mapping to macro-templates.md, sweep Partner → Farva in remaining operational files, fix conventions.md /swap-meal inaccuracy, and tick stale requirement checkboxes.
+**Requirements**: LIB-01, LIB-02, LIB-03, LIB-04, CAL-02, TRK-01, TRK-02, TRK-03, TRK-04, CMD-01, CMD-02, CMD-03, CMD-04, CMD-05, CMD-06, DOC-01, DOC-02
 **Depends on:** Phase 4
-**Plans:** 4/6 plans executed
+**Plans:** 6 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 04.1 to break down)
+- [ ] 04.1-01-session-type-mapping-PLAN.md — Add Session-Type Mapping table to macro-templates.md + rename Partner → Farva in same file
+- [ ] 04.1-02-meals-restructure-PLAN.md — Restructure library/meals.md with H2/H3 headings and per-meal archetype fields
+- [ ] 04.1-03-recipes-restructure-PLAN.md — Restructure library/recipes.md with H2/H3 headings and normalised ingredient blocks
+- [ ] 04.1-04-partner-farva-sweep-PLAN.md — Partner → Farva sweep across calorie-targets.md, portions.md, README.md, meal-prep-planner.md
+- [ ] 04.1-05-conventions-fix-PLAN.md — Remove /swap-meal from weekly-plans Read by column in docs/conventions.md
+- [ ] 04.1-06-metadata-fixup-PLAN.md — Tick delivered REQUIREMENTS.md checkboxes and fix ROADMAP.md phase statuses
