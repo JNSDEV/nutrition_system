@@ -2,6 +2,24 @@
 
 A markdown-first context system (GSD-style) that turns Jonas's existing nutrition knowledge base into a working daily/weekly operating loop — for him and Farva — covering calorie tracking, meal-prep guidance, and progress against weight + cycling goals.
 
+## Current State
+
+**Shipped:** v1.0 (2026-05-08) — markdown-first MVP with library, per-person trackers, 6 slash commands, onboarding docs.
+
+See `.planning/milestones/v1.0-ROADMAP.md` for the full archive.
+
+**Now:** Use the system. Run `/weekly-plan` Sunday evening to start the first real week of operation. Surface friction during real use; capture v1.1 candidates as they appear.
+
+## Next Milestone Candidates (v1.1)
+
+Drawn from the v1.0 deferred list:
+- Mobile sync beyond the Claude-chat-buffer pattern
+- Body-measurement tracking (waist, photos)
+- Auto-import of training data from Strava / Garmin
+- Per-recipe pre-computed kcal/macros (so `/swap-meal` and `/prep-today` don't need ingredient-level lookup)
+
+Real friction from using v1.0 should drive what actually lands in v1.1. Run `/gsd-new-milestone` when ready.
+
 ## What This Is
 
 A `.planning/`-style markdown system where:
