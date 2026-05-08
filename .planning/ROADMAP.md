@@ -104,12 +104,12 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 **Goal:** Close the 2 BLOCKERs and 3 WARNINGs from the v1.0 milestone audit: restructure library/meals.md and library/recipes.md for anchor resolution, add session_type mapping to macro-templates.md, sweep Partner → Farva in remaining operational files, fix conventions.md /swap-meal inaccuracy, and tick stale requirement checkboxes.
 **Requirements**: LIB-01, LIB-02, LIB-03, LIB-04, CAL-02, TRK-01, TRK-02, TRK-03, TRK-04, CMD-01, CMD-02, CMD-03, CMD-04, CMD-05, CMD-06, DOC-01, DOC-02
 **Depends on:** Phase 4
-**Plans:** 6 plans
+**Plans:** 6/6 plans complete
 
 Plans:
-- [ ] 04.1-01-session-type-mapping-PLAN.md — Add Session-Type Mapping table to macro-templates.md + rename Partner → Farva in same file
-- [ ] 04.1-02-meals-restructure-PLAN.md — Restructure library/meals.md with H2/H3 headings and per-meal archetype fields
-- [ ] 04.1-03-recipes-restructure-PLAN.md — Restructure library/recipes.md with H2/H3 headings and normalised ingredient blocks
-- [ ] 04.1-04-partner-farva-sweep-PLAN.md — Partner → Farva sweep across calorie-targets.md, portions.md, README.md, meal-prep-planner.md
-- [ ] 04.1-05-conventions-fix-PLAN.md — Remove /swap-meal from weekly-plans Read by column in docs/conventions.md
-- [ ] 04.1-06-metadata-fixup-PLAN.md — Tick delivered REQUIREMENTS.md checkboxes and fix ROADMAP.md phase statuses
+- [x] 04.1-01-session-type-mapping-PLAN.md — Add Session-Type Mapping table to macro-templates.md + rename Partner → Farva in same file
+- [x] 04.1-02-meals-restructure-PLAN.md — Restructure library/meals.md with H2/H3 headings and per-meal archetype fields
+- [x] 04.1-03-recipes-restructure-PLAN.md — Restructure library/recipes.md with H2/H3 headings and normalised ingredient blocks
+- [x] 04.1-04-partner-farva-sweep-PLAN.md — Partner → Farva sweep across calorie-targets.md, portions.md, README.md, meal-prep-planner.md
+- [x] 04.1-05-conventions-fix-PLAN.md — Remove /swap-meal from weekly-plans Read by column in docs/conventions.md
+- [x] 04.1-06-metadata-fixup-PLAN.md — Tick delivered REQUIREMENTS.md checkboxes and fix ROADMAP.md phase statuses
