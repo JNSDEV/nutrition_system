@@ -16,6 +16,7 @@ requirements:
   - BE-02
   - BE-03
   - BE-04
+last_updated: 2026-05-11
 
 must_haves:
   truths:
@@ -24,6 +25,7 @@ must_haves:
     - "Supabase cloud project is provisioned and CLI is linked to it"
     - "Secrets are gitignored; .env.example documents all required vars"
     - "backend/README.md explains the local dev workflow"
+    - "node_modules/ is gitignored from the start so plan 05-03 does not need to add it"
   artifacts:
     - path: "backend/supabase/config.toml"
       provides: "Supabase CLI project config with verify_jwt=true for both functions"
@@ -32,7 +34,7 @@ must_haves:
     - path: "backend/supabase/functions/.env.example"
       provides: "Template of function secrets (no values)"
     - path: "backend/.gitignore"
-      provides: "Gitignore rules covering .env files"
+      provides: "Gitignore rules covering .env files and node_modules/"
     - path: "backend/README.md"
       provides: "Setup guide: install CLI, link project, apply migrations, run functions"
   key_links:
@@ -73,7 +75,7 @@ Bootstrap the `backend/` directory: initialize Supabase CLI, create the director
 
 Purpose: Every subsequent plan in this phase depends on a linked Supabase CLI project with secrets gitignored. This plan creates that foundation before any code is written.
 
-Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, function `.env.example`, `.gitignore`, and `README.md`. The CLI is linked to the cloud project and `supabase status` reports the project ref.
+Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, function `.env.example`, `.gitignore` (covering `.env` files and `node_modules/`), and `README.md`. The CLI is linked to the cloud project and `supabase status` reports the project ref.
 </objective>
 
 <execution_context>
@@ -129,7 +131,9 @@ Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, func
        .env
        .env.local
        supabase/functions/.env
+       node_modules/
        ```
+       NOTE: `node_modules/` is included here so plan 05-03 (which installs npm packages for the seed script) does not need to add it separately.
     4. Create `backend/.env.example` with all required env vars documented (no values):
        ```
        # Supabase project
@@ -165,15 +169,16 @@ Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, func
        verify_jwt = false
        ```
 
-    IMPORTANT: The `supabase/functions/.env` file (not the `.env.example`) must be gitignored. Confirm this is in `.gitignore` before proceeding.
+    IMPORTANT: The `supabase/functions/.env` file (not the `.env.example`) must be gitignored. Confirm this is in `.gitignore` before proceeding. Also confirm `node_modules/` is in `.gitignore` — this prevents accidentally committing npm dependencies installed by plan 05-03.
   </action>
   <verify>
     `ls backend/supabase/config.toml` exits 0.
     `grep -c "verify_jwt" backend/supabase/config.toml` returns 3.
     `grep -c "supabase/functions/.env" backend/.gitignore` returns 1.
+    `grep -c "node_modules" backend/.gitignore` returns 1.
   </verify>
   <done>
-    `backend/supabase/config.toml` exists with `verify_jwt = true` for proxy-anthropic and github-fs, and `verify_jwt = false` for health. `.gitignore` covers all `.env` variants. `.env.example` documents all required variables.
+    `backend/supabase/config.toml` exists with `verify_jwt = true` for proxy-anthropic and github-fs, and `verify_jwt = false` for health. `.gitignore` covers all `.env` variants and `node_modules/`. `.env.example` documents all required variables.
   </done>
 </task>
 
@@ -265,7 +270,7 @@ Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, func
 
     Supabase introduced ES256 JWT signing by default in 2026. If Edge Functions return 401 for
     valid sessions, check: Supabase Dashboard → Settings → Auth → JWT Settings → Signing algorithm.
-    If set to ES256 and functions fail, temporarily switch to HS256 OR ensure your CLI is on
+    If set to ES256 and functions fail, temporarily switch to HS256 (legacy) OR ensure your CLI is on
     v2.98.2+ which includes the ES256 fix.
     ```
   </action>
@@ -284,9 +289,10 @@ Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, func
   <how-to-verify>
     1. Run `cd backend && supabase status` — should show your project URL and ref without errors.
     2. Open Supabase Studio (the URL from `supabase status`) → confirm the project dashboard loads.
-    3. Run `git status` in the repo root → `backend/` files should appear as untracked (no .env files).
+    3. Run `git status` in the repo root → `backend/` files should appear as untracked (no .env files, no node_modules/).
     4. Check that `backend/supabase/functions/.env` does NOT appear in git status (gitignored).
-    5. Commit the backend skeleton: `git add backend/ && git commit -m "feat(05-01): backend/ skeleton — supabase init + gitignore + README"`
+    5. Check that `backend/.gitignore` contains `node_modules/`.
+    6. Commit the backend skeleton: `git add backend/ && git commit -m "feat(05-01): backend/ skeleton — supabase init + gitignore + README"`
   </how-to-verify>
   <resume-signal>Type "verified" when the project is linked and the commit is made.</resume-signal>
 </task>
@@ -305,7 +311,7 @@ Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, func
 
 | Threat ID | Category | Component | Disposition | Mitigation Plan |
 |-----------|----------|-----------|-------------|-----------------|
-| T-05-01-01 | Information Disclosure | backend/.env | mitigate | `.gitignore` covers `.env` and `supabase/functions/.env`; `.env.example` has no values |
+| T-05-01-01 | Information Disclosure | backend/.env | mitigate | `.gitignore` covers `.env`, `supabase/functions/.env`, and `node_modules/`; `.env.example` has no values |
 | T-05-01-02 | Information Disclosure | Supabase service-role key | mitigate | Key lives in `.env` (gitignored) only; not committed, not in README examples |
 | T-05-01-03 | Tampering | supabase/config.toml | accept | Config is committed to git; no secrets in config.toml; verify_jwt settings are public configuration |
 </threat_model>
@@ -314,11 +320,12 @@ Output: A committed `backend/` skeleton with `config.toml`, `.env.example`, func
 - `supabase status` from backend/ reports the correct project ref
 - `backend/supabase/config.toml` has `verify_jwt = true` for proxy-anthropic and github-fs
 - No `.env` or `.env.local` or `supabase/functions/.env` files appear in `git status`
+- `backend/.gitignore` contains `node_modules/` (prevents accidental commit of npm deps from plan 05-03)
 - `backend/README.md` covers ES256 JWT fallback (required by research risk register)
 </verification>
 
 <success_criteria>
-Supabase CLI is linked to a provisioned cloud project. The `backend/` directory structure exists and is committed. Secrets are gitignored and `.env.example` files document what is needed. Any developer (including Jonas after a fresh clone) can follow `backend/README.md` to reproduce the local setup.
+Supabase CLI is linked to a provisioned cloud project. The `backend/` directory structure exists and is committed. Secrets and `node_modules/` are gitignored and `.env.example` files document what is needed. Any developer (including Jonas after a fresh clone) can follow `backend/README.md` to reproduce the local setup.
 </success_criteria>
 
 <output>

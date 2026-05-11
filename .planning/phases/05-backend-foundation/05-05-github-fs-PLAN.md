@@ -14,6 +14,7 @@ files_modified:
 autonomous: false
 requirements:
   - BE-03
+last_updated: 2026-05-11
 
 must_haves:
   truths:
@@ -139,6 +140,12 @@ Response: { "commit": {"sha": "..."}, "content": {"sha": "..."} }
   <action>
     Create `backend/supabase/functions/_shared/github.ts` (raw fetch wrappers per research Q2):
 
+    NOTE on `writeWithRetry` loop bounds: `maxRetries = 3` means 3 total write attempts (attempt 0,
+    1, 2). The loop runs `for (let attempt = 0; attempt <= maxRetries - 1; attempt++)` — equivalently
+    written as `attempt < maxRetries`. On a 409, retry if `attempt < maxRetries - 1` (i.e., there is
+    at least one more attempt left). The 3rd attempt (attempt === 2 === maxRetries - 1) throws on
+    failure without retrying further.
+
     ```typescript
     // _shared/github.ts
     // Typed raw-fetch wrappers for GitHub Contents API.
@@ -258,8 +265,10 @@ Response: { "commit": {"sha": "..."}, "content": {"sha": "..."} }
 
     /**
      * Write with 409 retry (D-24 conflict handling).
-     * 3 attempts, backoff 200ms * attempt number.
-     * On 409: re-fetch current SHA and retry.
+     * maxRetries = 3 means 3 total write attempts (attempt 0, 1, 2).
+     * Loop: attempt < maxRetries (i.e., 0, 1, 2).
+     * Retry condition: attempt < maxRetries - 1 (retry on attempts 0 and 1; throw on attempt 2).
+     * Backoff: 200ms * (attempt + 1) before each retry.
      */
     export async function writeWithRetry(
       repo: string,
@@ -287,6 +296,7 @@ Response: { "commit": {"sha": "..."}, "content": {"sha": "..."} }
           }
         }
       }
+      // Unreachable: loop always returns or throws; this satisfies TypeScript return type.
       throw new Error('GitHub write: max retries exceeded');
     }
     ```
@@ -439,9 +449,11 @@ Response: { "commit": {"sha": "..."}, "content": {"sha": "..."} }
     `grep -c "writeWithRetry" backend/supabase/functions/github-fs/index.ts` returns 1.
     `grep -c "includes('\.\.')" backend/supabase/functions/github-fs/index.ts` returns 1.
     `grep -c "Deno.env.get('GITHUB_PAT')" backend/supabase/functions/github-fs/index.ts` returns 1.
+    Verify retry loop bounds — loop runs exactly 3 times for maxRetries=3:
+    `grep -c "attempt < maxRetries" backend/supabase/functions/_shared/github.ts` returns 2.
   </verify>
   <done>
-    `github-fs/index.ts` implements all three verbs per D-16. `_shared/github.ts` has `writeWithRetry` with 3-attempt loop and 200ms*attempt backoff. Path validation rejects `..` and `.git/` (D-21). Commit author is `profiles.display_name` with derived email (D-18). GITHUB_PAT and GITHUB_REPO from env only.
+    `github-fs/index.ts` implements all three verbs per D-16. `_shared/github.ts` has `writeWithRetry` with correct 3-attempt loop (`for attempt = 0; attempt < maxRetries`) and retry condition (`attempt < maxRetries - 1`) giving exactly 3 write attempts and 200ms*attempt backoff. Path validation rejects `..` and `.git/` (D-21). Commit author is `profiles.display_name` with derived email (D-18). GITHUB_PAT and GITHUB_REPO from env only.
   </done>
 </task>
 
@@ -694,6 +706,7 @@ Response: { "commit": {"sha": "..."}, "content": {"sha": "..."} }
 - Cloud smoke test: no JWT returns 401
 - Cloud smoke test: stale sha returns 409/422 after 3 retries
 - GitHub repo commit history shows correct author attribution
+- `writeWithRetry` loop: `for (attempt = 0; attempt < maxRetries)` gives exactly 3 attempts for maxRetries=3
 </verification>
 
 <success_criteria>

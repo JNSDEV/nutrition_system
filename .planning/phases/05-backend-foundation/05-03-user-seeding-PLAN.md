@@ -12,6 +12,7 @@ autonomous: false
 requirements:
   - BE-01
   - BE-04
+last_updated: 2026-05-11
 
 must_haves:
   truths:
@@ -228,10 +229,8 @@ const { data: { users }, error } = await supabase.auth.admin.listUsers()
     cd backend && npm install
     ```
 
-    The `node_modules/` directory should be gitignored — add to `backend/.gitignore`:
-    ```
-    node_modules/
-    ```
+    NOTE: `node_modules/` is already in `backend/.gitignore` (written by plan 05-01 Task 1).
+    Do NOT add it again here.
   </action>
   <verify>
     `ls backend/scripts/seed-users.ts` exits 0.
@@ -241,7 +240,7 @@ const { data: { users }, error } = await supabase.auth.admin.listUsers()
     `grep -c "node_modules" backend/.gitignore` returns 1.
   </verify>
   <done>
-    `seed-users.ts` exists with idempotent existence check (listUsers → find by email), not ON CONFLICT. `package.json` has required dependencies. `node_modules/` is gitignored.
+    `seed-users.ts` exists with idempotent existence check (listUsers → find by email), not ON CONFLICT. `package.json` has required dependencies. `node_modules/` is already gitignored from plan 05-01 (confirm, do not re-add).
   </done>
 </task>
 
@@ -372,6 +371,7 @@ const { data: { users }, error } = await supabase.auth.admin.listUsers()
 - Script is idempotent: re-running exits 0 with [SKIP] messages
 - RLS test: signed-in Jonas sees only 1 profile row
 - Cloud Supabase Dashboard → Authentication → Users shows both accounts
+- `node_modules/` gitignore confirmed present (from plan 05-01; NOT added by this plan)
 </verification>
 
 <success_criteria>

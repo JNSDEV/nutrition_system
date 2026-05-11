@@ -13,6 +13,7 @@ files_modified:
 autonomous: false
 requirements:
   - BE-02
+last_updated: 2026-05-11
 
 must_haves:
   truths:
@@ -20,6 +21,7 @@ must_haves:
     - "POST without a JWT returns 401 (gateway enforces D-10)"
     - "The ANTHROPIC_API_KEY is never returned to the client"
     - "The target URL is hard-coded server-side (not from request body) — SSRF guard"
+    - "Every forwarded request increments the counter — valid requests, invalid model names, malformed bodies all count toward the cap (D-15)"
     - "A request over 100/day per user returns 429 with a friendly message (D-15)"
     - "Only request count + latency are logged — no body content (D-14)"
   artifacts:
@@ -37,8 +39,12 @@ must_haves:
       pattern: "api.anthropic.com/v1/messages"
     - from: "proxy-anthropic/index.ts"
       to: "public.api_usage"
-      via: "usage.ts increment helper (service-role Supabase client)"
-      pattern: "incrementUsage"
+      via: "usage.ts incrementProxyCalls → supabase.rpc('increment_proxy_calls', ...)"
+      pattern: "incrementProxyCalls"
+    - from: "supabase.rpc('increment_proxy_calls')"
+      to: "public.increment_proxy_calls SQL function"
+      via: "migration 0004_rpc_increment_proxy_calls.sql (plan 05-02)"
+      pattern: "increment_proxy_calls"
 ---
 
 <objective>
@@ -80,7 +86,13 @@ serve(async (req: Request) => {
 -- public.api_usage
 -- primary key: (user_id, day)
 -- columns: user_id uuid, day date, proxy_anthropic_calls int, github_writes int
--- Upsert pattern: INSERT ... ON CONFLICT (user_id, day) DO UPDATE SET proxy_anthropic_calls = ...
+
+-- increment_proxy_calls Postgres function (from migration 0004, plan 05-02):
+-- create or replace function public.increment_proxy_calls(p_user_id uuid, p_day date)
+-- returns void language sql security definer as $$
+--   insert into public.api_usage (user_id, day, proxy_anthropic_calls) values (p_user_id, p_day, 1)
+--   on conflict (user_id, day) do update set proxy_anthropic_calls = api_usage.proxy_anthropic_calls + 1;
+-- $$;
 ```
 </interfaces>
 
@@ -95,6 +107,11 @@ serve(async (req: Request) => {
   </files>
   <action>
     Create `backend/supabase/functions/_shared/usage.ts`:
+
+    The `increment_proxy_calls` Postgres function is guaranteed to exist via migration
+    `0004_rpc_increment_proxy_calls.sql` (plan 05-02). No fallback path is needed — call
+    the RPC directly. The RPC uses an atomic `INSERT ... ON CONFLICT DO UPDATE SET ... + 1`
+    so there is no read-then-write race condition.
 
     ```typescript
     // _shared/usage.ts
@@ -125,7 +142,11 @@ serve(async (req: Request) => {
       return data?.proxy_anthropic_calls ?? 0;
     }
 
-    /** Increments proxy_anthropic_calls by 1 for (userId, today). Creates row if absent. */
+    /**
+     * Atomically increments proxy_anthropic_calls by 1 for (userId, today).
+     * Creates the row if absent. Uses the increment_proxy_calls Postgres function
+     * (migration 0004) which performs an atomic INSERT ... ON CONFLICT DO UPDATE.
+     */
     export async function incrementProxyCalls(userId: string): Promise<void> {
       const supabase = adminClient();
       const today = new Date().toISOString().slice(0, 10);
@@ -133,28 +154,17 @@ serve(async (req: Request) => {
         p_user_id: userId,
         p_day: today,
       });
-      // If RPC not available, fall back to upsert:
-      if (error?.message?.includes('function increment_proxy_calls')) {
-        const { error: upsertError } = await supabase
-          .from('api_usage')
-          .upsert(
-            { user_id: userId, day: today, proxy_anthropic_calls: 1 },
-            { onConflict: 'user_id,day', ignoreDuplicates: false }
-          );
-        // Upsert doesn't increment — use raw SQL increment via RPC alternative:
-        // For simplicity in Phase 5, do a read-then-write (acceptable for 2-user scale).
-        if (upsertError) throw upsertError;
-      }
-      // Preferred path: add a DB function for atomic increment (avoids read-then-write race).
-      // For Phase 5 (2 users, low volume), read-then-upsert is safe.
+      if (error) throw error;
     }
     ```
 
-    IMPORTANT: The read-then-write approach is safe for 2-user use. For atomic increment, add a
-    Postgres function in a migration. The plan prefers simplicity here; add atomic increment if
-    the Phase 5 checker flags it.
-
     Create `backend/supabase/functions/proxy-anthropic/index.ts`:
+
+    IMPORTANT counter-increment placement: `incrementProxyCalls` is called UNCONDITIONALLY
+    after the Anthropic fetch completes — regardless of `anthropicResponse.ok`. The counter
+    measures forwarded requests, not successful ones. This prevents a cap-bypass where a user
+    sends intentionally-invalid requests (bad model name, malformed body) to get unlimited
+    Anthropic 4xx responses without consuming quota.
 
     ```typescript
     // proxy-anthropic/index.ts
@@ -163,6 +173,8 @@ serve(async (req: Request) => {
     // Security: JWT verified by Supabase gateway (verify_jwt = true in config.toml).
     // SSRF guard: target URL is hard-coded — never read from request body (D-10).
     // Cost cap: 100 requests/day per user returns 429 (D-15).
+    //   Counter increments on EVERY forwarded request (not just successful ones) so
+    //   intentionally-invalid requests (bad model, malformed body) still consume quota.
     // Logging: request count + latency only — no body content logged (D-14).
 
     import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
@@ -249,6 +261,11 @@ serve(async (req: Request) => {
         const responseBody = await anthropicResponse.json();
         const latencyMs = Date.now() - startMs;
 
+        // D-15: Increment usage counter UNCONDITIONALLY after forwarding to Anthropic.
+        // Counter measures forwarded requests, not successful ones. Incrementing regardless
+        // of anthropicResponse.ok prevents cap-bypass via intentionally-invalid requests.
+        await incrementProxyCalls(user.id);
+
         // D-14: Log count + latency only. No body content.
         console.log(
           JSON.stringify({
@@ -258,11 +275,6 @@ serve(async (req: Request) => {
             latency_ms: latencyMs,
           })
         );
-
-        // Increment usage counter after successful forward (not after cap check).
-        if (anthropicResponse.ok) {
-          await incrementProxyCalls(user.id);
-        }
 
         return new Response(JSON.stringify(responseBody), {
           status: anthropicResponse.status,
@@ -289,16 +301,23 @@ serve(async (req: Request) => {
     CRITICAL security checks to verify before moving on:
     - `ANTHROPIC_API_URL` is a string constant, not derived from any request field
     - `ANTHROPIC_API_KEY` comes from `Deno.env.get()`, never from request body
+    - `incrementProxyCalls` is called AFTER the fetch, BEFORE returning — no early return skips it
     - The response body does NOT include any headers from the Anthropic response that might expose the key
   </action>
   <verify>
     `grep -c "api.anthropic.com/v1/messages" backend/supabase/functions/proxy-anthropic/index.ts` returns 1.
     `grep -c "Deno.env.get('ANTHROPIC_API_KEY')" backend/supabase/functions/proxy-anthropic/index.ts` returns 1.
+    Confirm `incrementProxyCalls` call is NOT inside an `if (anthropicResponse.ok)` block:
+    `grep -c "if (anthropicResponse.ok)" backend/supabase/functions/proxy-anthropic/index.ts` returns 0.
+    Confirm `incrementProxyCalls` is called unconditionally after the fetch:
+    `grep -c "await incrementProxyCalls" backend/supabase/functions/proxy-anthropic/index.ts` returns 1.
+    Confirm no fallback upsert path in usage.ts (RPC is the only path):
+    `grep -c "upsert" backend/supabase/functions/_shared/usage.ts` returns 0.
     Confirm no line in index.ts reads from `req.body` to construct the target URL:
     `grep -c "requestBody.*url\|req.*url" backend/supabase/functions/proxy-anthropic/index.ts` returns 0.
   </verify>
   <done>
-    `proxy-anthropic/index.ts` implements D-10 (JWT required), D-11 (non-streaming), D-12 (server-held key), D-13 (model from app), D-14 (count+latency logging), D-15 (100 req/day cap). SSRF guard: target URL hard-coded. `_shared/usage.ts` provides the cap check helpers.
+    `proxy-anthropic/index.ts` implements D-10 (JWT required), D-11 (non-streaming), D-12 (server-held key), D-13 (model from app), D-14 (count+latency logging), D-15 (100 req/day cap — counter increments unconditionally on every forwarded request). SSRF guard: target URL hard-coded. `_shared/usage.ts` calls `supabase.rpc('increment_proxy_calls', ...)` with no fallback; the function is guaranteed by migration 0004.
   </done>
 </task>
 
@@ -419,7 +438,8 @@ serve(async (req: Request) => {
     4. Verify in Supabase Dashboard → Edge Functions → proxy-anthropic → Logs:
        - Should see a log entry with `event: proxy_anthropic_call`, status 200, and a latency_ms
        - Should NOT see any body content, API keys, or request payloads in logs
-    5. Commit: `git add backend/supabase/functions/ backend/scripts/smoke/proxy-anthropic.sh && git commit -m "feat(05-04): proxy-anthropic Edge Function with cost cap + SSRF guard"`
+    5. Verify the counter incremented: Dashboard → Table Editor → api_usage → confirm a row exists for Jonas with proxy_anthropic_calls = 1.
+    6. Commit: `git add backend/supabase/functions/ backend/scripts/smoke/proxy-anthropic.sh && git commit -m "feat(05-04): proxy-anthropic Edge Function with cost cap + SSRF guard"`
   </how-to-verify>
   <resume-signal>Type "verified" when smoke test passes against cloud URL and logs show count+latency only.</resume-signal>
 </task>
@@ -442,8 +462,8 @@ serve(async (req: Request) => {
 | T-05-04-01 | Elevation of Privilege | SSRF — proxy-anthropic target URL | mitigate | `ANTHROPIC_API_URL` is a string constant in index.ts; never read from request body (D-10). Verified by grep in Task 1. |
 | T-05-04-02 | Information Disclosure | ANTHROPIC_API_KEY in Edge Function | mitigate | Key read from `Deno.env.get()` only; stored in Supabase secrets; response body is Anthropic JSON, not the key |
 | T-05-04-03 | Information Disclosure | Logging body content | mitigate | Only `user_id`, `status`, `latency_ms` logged (D-14); request body and Anthropic response body never logged |
-| T-05-04-04 | Denial of Wallet | Unbounded Anthropic API spend | mitigate | 100-req/day per user cap (D-15); over-cap returns 429 before forwarding to Anthropic |
-| T-05-04-05 | Tampering | User manipulates api_usage counter | mitigate | api_usage writes use service-role client; user-scoped client has select-only RLS policy on api_usage |
+| T-05-04-04 | Denial of Wallet | Unbounded Anthropic API spend | mitigate | 100-req/day per user cap (D-15); over-cap returns 429 before forwarding to Anthropic; counter increments on ALL forwarded requests (valid and invalid) so cap cannot be bypassed via intentionally-bad requests |
+| T-05-04-05 | Tampering | User manipulates api_usage counter | mitigate | api_usage writes use service-role client via atomic RPC; user-scoped client has select-only RLS policy on api_usage |
 </threat_model>
 
 <verification>
@@ -451,11 +471,13 @@ serve(async (req: Request) => {
 - Cloud smoke test: POST without JWT → 401
 - Supabase Dashboard logs show `event`, `status`, `latency_ms` only — no API key or request body
 - `grep "api.anthropic.com/v1/messages" backend/supabase/functions/proxy-anthropic/index.ts` shows hard-coded constant
+- `grep "if (anthropicResponse.ok)" backend/supabase/functions/proxy-anthropic/index.ts` returns no matches (counter is unconditional)
+- `api_usage` table has a row for Jonas after smoke test run (confirm in Studio)
 - Function is deployed: Supabase Dashboard → Edge Functions → proxy-anthropic → Status: Active
 </verification>
 
 <success_criteria>
-ROADMAP success criterion 2: "`proxy-anthropic` Edge Function returns a successful response when called with a valid JWT and a small test prompt; Anthropic key is never exposed to the client." The smoke test confirms both the happy path and the 401 path. Logs confirm no key exposure.
+ROADMAP success criterion 2: "`proxy-anthropic` Edge Function returns a successful response when called with a valid JWT and a small test prompt; Anthropic key is never exposed to the client." The smoke test confirms both the happy path and the 401 path. Logs confirm no key exposure. The cost cap counter increments on every forwarded request (not just successful ones).
 </success_criteria>
 
 <output>

@@ -609,6 +609,7 @@ backend/
       0001_initial.sql      # enable extensions (pgcrypto, uuid-ossp)
       0002_profiles.sql     # profiles table + trigger + RLS
       0003_api_usage.sql    # api_usage table
+      0004_rpc_increment_proxy_calls.sql  # atomic increment RPC for D-15 cap
     functions/
       proxy-anthropic/
         index.ts
@@ -633,7 +634,7 @@ backend/
 
 ### Migration Ordering
 
-Lexicographic (`0001`, `0002`, `0003`) is the correct and boring convention. Matches Supabase CLI behavior on `db reset`. No gaps between numbers needed for Phase 5 since all three migrations are created together.
+Lexicographic (`0001`, `0002`, `0003`, `0004`) is the correct and boring convention. Matches Supabase CLI behavior on `db reset`. Phase 5 ships 4 migrations; the RPC migration (`0004`) depends on `api_usage` from `0003`.
 
 ### Smoke Test Script Style
 
@@ -679,7 +680,7 @@ These were listed as "Claude's Discretion" but research now has clear answers:
 
 | Decision | Recommendation | Basis |
 |----------|---------------|-------|
-| Migration naming | `0001_initial.sql`, `0002_profiles.sql`, `0003_api_usage.sql` | Lexicographic order is Supabase CLI default; no gaps needed |
+| Migration naming | `0001_initial.sql`, `0002_profiles.sql`, `0003_api_usage.sql`, `0004_rpc_increment_proxy_calls.sql` | Lexicographic order is Supabase CLI default |
 | User seeding approach | Post-deploy TypeScript script using admin SDK (`scripts/seed-users.ts`) | Avoids `auth.identities` schema fragility; idiomatic; explicitly recommended by community |
 | Octokit vs raw fetch | Raw `fetch` | Simpler, no bundle overhead, 3 endpoints is too small to justify an SDK |
 | Smoke test style | Bash + curl | No runtime dependency; readable; standard for backend smoke tests |
@@ -710,48 +711,6 @@ These were listed as "Claude's Discretion" but research now has clear answers:
 | GitHub fine-grained PAT | `github-fs` function | Must be created by Jonas | Scope: `contents:write` on `nutrition_system` repo |
 | Anthropic API key | `proxy-anthropic` function | Jonas already has one | Store in `supabase secrets set` |
 | Supabase project (cloud) | All backend work | Not yet created | Create at supabase.com; free tier sufficient |
-
----
-
-## Validation Architecture
-
-Per config: `workflow.nyquist_validation` not set to false — treating as enabled.
-
-D-26 specifies manual curl smoke tests only (no automated framework). The test map below reflects this.
-
-### Test Framework
-
-| Property | Value |
-|----------|-------|
-| Framework | Manual bash + curl scripts |
-| Config file | none (scripts in `backend/scripts/smoke/`) |
-| Quick run command | `bash backend/scripts/smoke/proxy-anthropic.sh` |
-| Full suite command | `bash backend/scripts/smoke/proxy-anthropic.sh && bash backend/scripts/smoke/github-fs-read.sh && bash backend/scripts/smoke/github-fs-write.sh` |
-
-### Phase Requirements → Test Map
-
-| Req ID | Behavior | Test Type | Command | File Exists? |
-|--------|----------|-----------|---------|-------------|
-| BE-01 | Jonas can sign in | manual-smoke | `supabase auth sign-in --email jonas@nutrition-system.local` | Wave 0 |
-| BE-01 | Farva can sign in | manual-smoke | `supabase auth sign-in --email farva@nutrition-system.local` | Wave 0 |
-| BE-01 | Profile row exists for each user | manual-inspect | Supabase Studio → `profiles` table | — |
-| BE-02 | Authenticated POST → 200 + Anthropic response | manual-smoke | `bash scripts/smoke/proxy-anthropic.sh` | Wave 0 |
-| BE-02 | Unauthenticated POST → 401 | manual-smoke | Included in smoke script | Wave 0 |
-| BE-02 | Over-cap → 429 | manual-smoke | Manual: insert 100 rows in `api_usage`, then call | — |
-| BE-03 | `github-fs` read → file content + SHA | manual-smoke | `bash scripts/smoke/github-fs-read.sh` | Wave 0 |
-| BE-03 | `github-fs` write → commit on `main` | manual-smoke | `bash scripts/smoke/github-fs-write.sh` | Wave 0 |
-| BE-03 | `github-fs` write with wrong SHA → 409 | manual-smoke | Included in write smoke script | Wave 0 |
-| BE-03 | `github-fs` path with `..` → 400 | manual-smoke | Negative path in write smoke script | Wave 0 |
-| BE-04 | `profiles` auto-populated on seed | manual-inspect | Supabase Studio after seed runs | — |
-| BE-04 | RLS: user can only select own row | manual-smoke | Sign in as Jonas, attempt to read Farva's row | — |
-
-### Wave 0 Gaps
-
-- [ ] `backend/scripts/smoke/proxy-anthropic.sh` — covers BE-02 happy + 401 paths
-- [ ] `backend/scripts/smoke/github-fs-read.sh` — covers BE-03 read + list
-- [ ] `backend/scripts/smoke/github-fs-write.sh` — covers BE-03 write + 409 + path validation
-- [ ] `backend/scripts/seed-users.ts` — covers BE-01 (seed invocation)
-- [ ] `backend/README.md` — documents full local setup so smoke tests can be run by Jonas
 
 ---
 
