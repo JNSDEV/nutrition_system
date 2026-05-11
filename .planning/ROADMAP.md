@@ -34,7 +34,7 @@
   4. `profiles` table is auto-populated on first sign-in; row contains `display_name`, `tracker_dir`, `is_owner`
 **Plans**: 6 plans
 - [x] 05-01-repo-bootstrap-PLAN.md — backend/ skeleton, Supabase CLI link
-- [ ] 05-02-schema-migrations-PLAN.md — profiles + api_usage migrations + trigger
+- [x] 05-02-schema-migrations-PLAN.md — profiles + api_usage migrations + trigger
 - [ ] 05-03-user-seeding-PLAN.md — Jonas + Farva accounts seeded; profiles trigger verified
 - [ ] 05-04-proxy-anthropic-PLAN.md — Anthropic proxy Edge Function with cost cap
 - [ ] 05-05-github-fs-PLAN.md — GitHub FS Edge Function (read/list/write with retry)
