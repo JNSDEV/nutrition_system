@@ -5,20 +5,29 @@ A markdown-first context system (GSD-style) that turns Jonas's existing nutritio
 ## Current State
 
 **Shipped:** v1.0 (2026-05-08) — markdown-first MVP with library, per-person trackers, 6 slash commands, onboarding docs.
+See `.planning/milestones/v1.0-ROADMAP.md` for the full v1.0 archive.
 
-See `.planning/milestones/v1.0-ROADMAP.md` for the full archive.
+**Active:** v1.1 — Hybrid Mobile App (6 phases: 5 → 10).
 
-**Now:** Use the system. Run `/weekly-plan` Sunday evening to start the first real week of operation. Surface friction during real use; capture v1.1 candidates as they appear.
+## v1.1 Goal
 
-## Next Milestone Candidates (v1.1)
+Both Jonas and Farva run all 6 slash commands from a **Flutter app on their own phone**, with reads/writes flowing through **Supabase** (auth + 2 Edge Functions) to a **shared GitHub repo**. Quality stays at Claude Sonnet/Opus level via a backend Anthropic proxy. Personal use only — TestFlight + Android internal distribution, not App Store.
 
-Drawn from the v1.0 deferred list:
-- Mobile sync beyond the Claude-chat-buffer pattern
-- Body-measurement tracking (waist, photos)
-- Auto-import of training data from Strava / Garmin
-- Per-recipe pre-computed kcal/macros (so `/swap-meal` and `/prep-today` don't need ingredient-level lookup)
+### Stack
+- **App:** Flutter, scaffolded via the Unlockd CLI (Dart, Material/Cupertino, iOS + Android single codebase)
+- **Backend:** Supabase — Postgres `profiles` table, email auth seeded with 2 accounts, 2 Edge Functions (`proxy-anthropic`, `github-fs`)
+- **Storage:** GitHub repo `nutrition_system` continues as the single source of truth; the app reads/writes it via the backend
+- **Model:** Anthropic API (current Claude tier) proxied through `proxy-anthropic` — key never leaves the server
 
-Real friction from using v1.0 should drive what actually lands in v1.1. Run `/gsd-new-milestone` when ready.
+### Multi-profile rules
+- Jonas: full write access to all paths
+- Farva: write access limited to `trackers/farva/`; reads everywhere
+- Both share one Supabase project + one GitHub repo
+
+### v1.1 explicit non-goals
+Push notifications, offline cache, photo OCR, speech-to-text, App Store submission — all v1.2.
+
+See `.planning/REQUIREMENTS.md` and `.planning/ROADMAP.md` for the full milestone.
 
 ## What This Is
 
