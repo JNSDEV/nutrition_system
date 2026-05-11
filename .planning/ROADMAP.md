@@ -32,7 +32,13 @@
   2. `proxy-anthropic` Edge Function returns a successful response when called with a valid JWT and a small test prompt; Anthropic key is never exposed to the client
   3. `github-fs` Edge Function can `read` an existing file, `list` a directory, and `write` a new file in the shared `nutrition_system` repo with a commit attributed to the authenticated user; GitHub PAT is never exposed to the client
   4. `profiles` table is auto-populated on first sign-in; row contains `display_name`, `tracker_dir`, `is_owner`
-**Plans**: TBD
+**Plans**: 6 plans
+- [ ] 05-01-repo-bootstrap-PLAN.md — backend/ skeleton, Supabase CLI link
+- [ ] 05-02-schema-migrations-PLAN.md — profiles + api_usage migrations + trigger
+- [ ] 05-03-user-seeding-PLAN.md — Jonas + Farva accounts seeded; profiles trigger verified
+- [ ] 05-04-proxy-anthropic-PLAN.md — Anthropic proxy Edge Function with cost cap
+- [ ] 05-05-github-fs-PLAN.md — GitHub FS Edge Function (read/list/write with retry)
+- [ ] 05-06-health-deploy-e2e-PLAN.md — health function + full E2E cloud verification
 
 ### Phase 6: Flutter App Scaffold + Auth
 **Goal**: Flutter app runs on iOS + Android with sign-in, sign-out, and a placeholder Chat screen.
