@@ -33,7 +33,7 @@
   3. `github-fs` Edge Function can `read` an existing file, `list` a directory, and `write` a new file in the shared `nutrition_system` repo with a commit attributed to the authenticated user; GitHub PAT is never exposed to the client
   4. `profiles` table is auto-populated on first sign-in; row contains `display_name`, `tracker_dir`, `is_owner`
 **Plans**: 6 plans
-- [ ] 05-01-repo-bootstrap-PLAN.md — backend/ skeleton, Supabase CLI link
+- [x] 05-01-repo-bootstrap-PLAN.md — backend/ skeleton, Supabase CLI link
 - [ ] 05-02-schema-migrations-PLAN.md — profiles + api_usage migrations + trigger
 - [ ] 05-03-user-seeding-PLAN.md — Jonas + Farva accounts seeded; profiles trigger verified
 - [ ] 05-04-proxy-anthropic-PLAN.md — Anthropic proxy Edge Function with cost cap
