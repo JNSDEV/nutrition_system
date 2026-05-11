@@ -35,7 +35,7 @@
 **Plans**: 6 plans
 - [x] 05-01-repo-bootstrap-PLAN.md — backend/ skeleton, Supabase CLI link
 - [x] 05-02-schema-migrations-PLAN.md — profiles + api_usage migrations + trigger
-- [ ] 05-03-user-seeding-PLAN.md — Jonas + Farva accounts seeded; profiles trigger verified
+- [x] 05-03-user-seeding-PLAN.md — Jonas + Farva accounts seeded; profiles trigger verified
 - [ ] 05-04-proxy-anthropic-PLAN.md — Anthropic proxy Edge Function with cost cap
 - [ ] 05-05-github-fs-PLAN.md — GitHub FS Edge Function (read/list/write with retry)
 - [ ] 05-06-health-deploy-e2e-PLAN.md — health function + full E2E cloud verification
